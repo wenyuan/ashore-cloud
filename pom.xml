@@ -9,11 +9,23 @@
     <version>${revision}</version>
     <packaging>pom</packaging>
     <modules>
-
+<!--        <module>ashore-gateway</module>-->
+        <module>ashore-framework</module>
+        <!-- Server 主项目 -->
+<!--        <module>ashore-server</module>-->
+        <!--  各种 module 拓展 -->
+<!--        <module>ashore-module-system</module>-->
+<!--        <module>ashore-module-infra</module>-->
+<!--        <module>ashore-module-member</module>-->
+<!--        <module>ashore-module-bpm</module>-->
+<!--        <module>ashore-module-report</module>-->
+<!--        <module>ashore-module-mp</module>-->
+<!--        <module>ashore-module-erp</module>-->
     </modules>
 
     <name>${project.artifactId}</name>
-    <description>基础 bom 文件，管理整个项目的依赖版本</description>
+    <description>基础 pom 文件，管理整个项目的依赖版本</description>
+    <url>http://maven.apache.org</url>
 
     <properties>
         <revision>2025.09-SNAPSHOT</revision>
