@@ -2,7 +2,7 @@ package com.example.ashore.framework.common.biz.infra.logger;
 
 import com.example.ashore.framework.common.biz.infra.logger.dto.ApiAccessLogCreateReqDTO;
 import com.example.ashore.framework.common.enums.RpcConstants;
-import com.example.ashore.framework.common.pojo.CommonResult;
+import com.example.ashore.framework.common.pojo.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -22,7 +22,7 @@ public interface ApiAccessLogCommonApi {
 
     @PostMapping(PREFIX + "/create")
     @Operation(summary = "创建 API 访问日志")
-    CommonResult<Boolean> createApiAccessLog(@Valid @RequestBody ApiAccessLogCreateReqDTO createDTO);
+    ApiResponse<Boolean> createApiAccessLog(@Valid @RequestBody ApiAccessLogCreateReqDTO createDTO);
 
     /**
      * 【异步】创建 API 访问日志
@@ -43,7 +43,7 @@ public interface ApiAccessLogCommonApi {
         @Override
         public ApiErrorLogCommonApi create(Throwable cause) {
             log.warn("[ApiAccessLogCommonApi] 创建访问日志 RPC 调用失败，将忽略", cause);
-            return createDTO -> CommonResult.success(false); // 静默失败，返回成功但结果为 false，不影响主流程
+            return createDTO -> ApiResponse.success(false); // 静默失败，返回成功但结果为 false，不影响主流程
         }
     }
 

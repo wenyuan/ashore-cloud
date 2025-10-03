@@ -2,7 +2,7 @@ package com.example.ashore.framework.common.biz.infra.logger;
 
 import com.example.ashore.framework.common.biz.infra.logger.dto.ApiErrorLogCreateReqDTO;
 import com.example.ashore.framework.common.enums.RpcConstants;
-import com.example.ashore.framework.common.pojo.CommonResult;
+import com.example.ashore.framework.common.pojo.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -22,10 +22,11 @@ public interface ApiErrorLogCommonApi {
 
     @PostMapping(PREFIX + "/create")
     @Operation(summary = "创建 API 异常日志")
-    CommonResult<Boolean> createApiErrorLog(@Valid @RequestBody ApiErrorLogCreateReqDTO createDTO);
+    ApiResponse<Boolean> createApiErrorLog(@Valid @RequestBody ApiErrorLogCreateReqDTO createDTO);
 
     /**
      * 【异步】创建 API 异常日志
+     *
      * @param createDTO 异常日志 DTO
      */
     @Async
@@ -42,7 +43,7 @@ public interface ApiErrorLogCommonApi {
         @Override
         public ApiErrorLogCommonApi create(Throwable cause) {
             log.warn("[ApiErrorLogCommonApi] 创建异常日志 RPC 调用失败，将忽略", cause);
-            return createDTO -> CommonResult.success(false); // 静默失败，返回成功但结果为 false，不影响主流程
+            return createDTO -> ApiResponse.success(false); // 静默失败，返回成功但结果为 false，不影响主流程
         }
     }
 
