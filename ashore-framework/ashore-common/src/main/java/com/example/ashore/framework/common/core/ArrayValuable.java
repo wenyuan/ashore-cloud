@@ -24,8 +24,8 @@ package com.example.ashore.framework.common.core;
  *
  *
  * 主要使用场景：
- *   - {@link com.example.ashore.framework.common.validation.InEnumValidator} - 单值校验器</li>
- *   - {@link com.example.ashore.framework.common.validation.InEnumCollectionValidator} - 集合校验器</li>
+ * - {@link com.example.ashore.framework.common.validation.InEnumValidator} - 单值校验器</li>
+ * - {@link com.example.ashore.framework.common.validation.InEnumCollectionValidator} - 集合校验器</li>
  *
  * @param <T> 数组元素类型
  */

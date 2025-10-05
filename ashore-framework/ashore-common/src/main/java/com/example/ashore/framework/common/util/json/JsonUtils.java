@@ -60,11 +60,13 @@ public class JsonUtils {
     /**
      * 初始化 objectMapper 属性
      * 允许将自定义配置的 ObjectMapper 注入到 JsonUtils 中，从而替换 JsonUtils 中的默认 ObjectMapper
+     *
      * 场景：
      * 在实际项目中，你可能需要自定义配置 ObjectMapper，比如：
-     *   - 修改日期格式
-     *   - 添加自定义序列化器
-     *   - 调整其他 Jackson 行为
+     * - 修改日期格式
+     * - 添加自定义序列化器
+     * - 调整其他 Jackson 行为
+     *
      * 示例：{@link com.example.ashore.framework.common.util.json.JacksonConfigTest}
      *
      * @param objectMapper 外部传入的 ObjectMapper 对象

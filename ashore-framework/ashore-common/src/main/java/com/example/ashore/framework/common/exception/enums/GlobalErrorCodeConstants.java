@@ -6,10 +6,10 @@ import com.example.ashore.framework.common.exception.ErrorCode;
  * 全局错误码枚举
  * 区别于 HTTP 响应状态码，这属于业务层错误码
  * 错误码的定义参考 <a href="https://github.com/alibaba/p3c/tree/master">阿里巴巴Java开发手册(黄山版)</a>
- *   - 五位字符串
- *   - A 开头表示错误来源于用户
- *   - B 开头表示错误来源于当前系统
- *   - C 开头表示错误来源于第三方服务
+ * - 五位字符串
+ * - A 开头表示错误来源于用户
+ * - B 开头表示错误来源于当前系统
+ * - C 开头表示错误来源于第三方服务
  */
 public interface GlobalErrorCodeConstants {
 

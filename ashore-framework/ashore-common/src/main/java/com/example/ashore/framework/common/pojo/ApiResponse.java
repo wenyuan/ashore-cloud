@@ -108,8 +108,9 @@ public class ApiResponse<T> implements Serializable {
 
     /**
      * 判断是否有异常
-     *   - 如果有就抛出 {@link BusinessException} 异常
-     *   - 如果没有就返回 {@link #data} 数据
+     * - 如果有就抛出 {@link BusinessException} 异常
+     * - 如果没有就返回 {@link #data} 数据
+     *
      * 场景：feign 调用后，如果失败直接抛异常，成功则返回数据(节省手动判断过程)
      */
     @JsonIgnore // 避免 jackson 序列化
@@ -120,10 +121,11 @@ public class ApiResponse<T> implements Serializable {
 
     /**
      * 异常捕获后转换为返回结果, 仅支持业务异常 {@link BusinessException}
+     *
      * 场景：
-     *   - 全局异常处理器
-     *   - Controller 中手动捕获
-     *   - 嵌套调用service方法时的异常处理
+     * - 全局异常处理器
+     * - Controller 中手动捕获
+     * - 嵌套调用service方法时的异常处理
      *
      * @param businessException 业务异常
      * @return
