@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BusinessExceptionUtils {
 
-    // ========== 和 BusinessException 的集成 ==========
+    // =============== 和 BusinessException 的集成 ===============
     public static BusinessException exception(ErrorCode errorCode) {
         return formatException(errorCode.getCode(), errorCode.getMsg());
     }
@@ -42,7 +42,7 @@ public class BusinessExceptionUtils {
         return formatException(GlobalErrorCodeConstants.BAD_REQUEST.getCode(), messagePattern, params);
     }
 
-    // ========== 消息格式化方法 ==========
+    // =============== 消息格式化方法 ===============
     /**
      * 将错误编号对应的消息使用 params 进行格式化。
      *

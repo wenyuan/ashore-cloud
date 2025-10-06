@@ -4,7 +4,7 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>ashore-cloud</artifactId>
+		<artifactId>ashore</artifactId>
 		<groupId>com.example</groupId>
 		<version>${revision}</version>
 	</parent>
@@ -34,7 +34,7 @@
 
 	<artifactId>ashore-framework</artifactId>
 	<description>
-		该模块是 ashore-cloud 项目的框架封装，其下的每个 Maven Module 都是一个组件
+		该模块是整个项目的框架封装，其下的每个 Maven Module 都是一个组件
 		组件分成两种类型：
 		1. 框架组件：第三方框架相关的组件封装，例如 MyBatis、Redis 等等的拓展。
 		2. 业务组件：业务相关的组件封装，例如数据字典、操作日志等等（名字会包含 biz 关键字）。

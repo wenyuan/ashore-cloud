@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>ashore-cloud</artifactId>
+    <artifactId>ashore</artifactId>
     <version>${revision}</version>
     <packaging>pom</packaging>
     <modules>

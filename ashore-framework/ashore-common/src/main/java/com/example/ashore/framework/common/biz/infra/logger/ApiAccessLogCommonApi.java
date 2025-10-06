@@ -35,7 +35,7 @@ public interface ApiAccessLogCommonApi {
     }
 
 
-    // ========== 静态内部类 ==========
+    // =============== 静态内部类 ===============
     @Component
     @Slf4j
     class ApiAccessLogCommonApiFallbackFactory implements FallbackFactory<ApiErrorLogCommonApi> {

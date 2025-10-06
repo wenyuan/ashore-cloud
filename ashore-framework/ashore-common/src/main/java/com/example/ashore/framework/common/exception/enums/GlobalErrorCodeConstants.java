@@ -15,7 +15,7 @@ public interface GlobalErrorCodeConstants {
 
     ErrorCode SUCCESS = new ErrorCode("00000", "成功");
 
-    // ========== 客户端错误段 ==========
+    // =============== 客户端错误段 ===============
     ErrorCode BAD_REQUEST = new ErrorCode("A0001", "用户端错误");
     ErrorCode REGISTER_ERROR = new ErrorCode("A0100", "用户注册错误");
     ErrorCode UNAUTHORIZED = new ErrorCode("A0200", "用户未登录");
@@ -28,13 +28,13 @@ public interface GlobalErrorCodeConstants {
     ErrorCode REPEATED_REQUESTS = new ErrorCode("A0900", "重复请求，请稍后重试");
     ErrorCode DEMO_DENY = new ErrorCode("A0901", "演示模式，禁止写操作");// 重复请求
 
-    // ========== 服务端错误段 ==========
+    // =============== 服务端错误段 ===============
     ErrorCode INTERNAL_SERVER_ERROR = new ErrorCode("B0001", "系统执行出错");
     ErrorCode NOT_IMPLEMENTED = new ErrorCode("B0501", "功能未实现/未开启");
     ErrorCode ERROR_CONFIGURATION = new ErrorCode("B0502", "错误的配置项");
     ErrorCode UNKNOWN = new ErrorCode("B0999", "未知错误");
 
-    // ========== 第三方服务错误段 ==========
+    // =============== 第三方服务错误段 ===============
     ErrorCode THIRD_PARTY_ERROR = new ErrorCode("C0001", "调用第三方服务出错");
 
 }

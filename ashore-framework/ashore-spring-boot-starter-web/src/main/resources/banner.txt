@@ -1,0 +1,11 @@
+${AnsiColor.BRIGHT_CYAN}
+===========================================
+==         ashore-spring-boot-starter-web 启动成功！ 🚀
+==         Application: ${spring.application.name}
+==         Spring Boot Version: ${spring-boot.version}
+==         端口：${server.port}
+==         环境：${spring.profiles.active}
+==         时间：${date}
+==         Supported by ashore-spring-boot-starter-web
+===========================================
+${AnsiColor.DEFAULT}
