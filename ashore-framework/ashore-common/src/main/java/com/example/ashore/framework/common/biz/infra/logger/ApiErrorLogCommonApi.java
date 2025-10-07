@@ -42,7 +42,7 @@ public interface ApiErrorLogCommonApi {
 
         @Override
         public ApiErrorLogCommonApi create(Throwable cause) {
-            log.warn("[ApiErrorLogCommonApi] 创建异常日志 RPC 调用失败，将忽略", cause);
+            log.warn("[ApiErrorLogCommonApi][创建异常日志 RPC 调用失败，将忽略]", cause);
             return createDTO -> ApiResponse.success(false); // 静默失败，返回成功但结果为 false，不影响主流程
         }
     }

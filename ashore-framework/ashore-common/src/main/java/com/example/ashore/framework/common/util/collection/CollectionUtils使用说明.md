@@ -1,10 +1,10 @@
 # CollectionUtils 工具类详细说明
 
-## 📚 类的整体介绍
+## 一、类的整体介绍
 
 `CollectionUtils` 是一个强大的集合操作工具类，提供了 30+ 个静态方法来简化 Java 集合的操作。它基于 Java 8+ 的 Stream API 和函数式编程思想设计，可以大幅简化业务代码。
 
-## 📖 Java 函数式接口说明（重要概念）
+## 二、Java 函数式接口说明（重要概念）
 
 - Predicate<T>: 断言，接收 T 返回 boolean，用于过滤判断  
   例如：`Predicate<User> isAdult = user -> user.getAge() >= 18;`
@@ -19,9 +19,9 @@
 - Consumer<T>: 消费者，接收 T 无返回值，用于执行操作（消费数据）  
   例如：`Consumer<User> print = user -> System.out.println(user.getName());`
 
-## 🎯 核心功能分类
+## 三、核心功能分类
 
-### 1. 集合判断方法
+### 3.1 集合判断方法
 
 #### `containsAny(Object source, Object... targets)`
 **作用**：判断 source 是否在 targets 数组中
@@ -53,7 +53,7 @@ boolean hasAdult = CollectionUtils.anyMatch(users, user -> user.getAge() >= 18);
 
 ---
 
-### 2. 集合过滤方法
+### 3.2 集合过滤方法
 
 #### `filterList(Collection<T> from, Predicate<T> predicate)`
 **作用**：过滤集合，返回满足条件的元素列表
@@ -95,7 +95,7 @@ List<User> latestUsers = CollectionUtils.distinct(
 
 ---
 
-### 3. 集合转换方法（最常用）
+### 3.3 集合转换方法（最常用）
 
 #### `convertList(Collection<T> from, Function<T, U> func)`
 **作用**：将集合中的每个元素转换为另一种类型
@@ -173,7 +173,7 @@ Map<Long, String> idToNameMap = CollectionUtils.convertMap(
 
 ---
 
-### 4. 集合分组方法
+### 3.4 集合分组方法
 
 #### `convertMultiMap(Collection<T> from, Function<T, K> keyFunc)`
 **作用**：按 key 分组，返回 Map<K, List<T>>（一对多）
@@ -206,7 +206,7 @@ Map<Long, List<String>> deptNameMap = CollectionUtils.convertMultiMap(
 
 ---
 
-### 5. 集合扁平化方法（处理嵌套集合）
+### 3.5 集合扁平化方法（处理嵌套集合）
 
 #### `convertListByFlatMap(Collection<T> from, Function<T, Stream<U>> func)`
 **作用**：将嵌套集合"拍平"成一维集合
@@ -229,7 +229,7 @@ List<OrderItem> allItems = CollectionUtils.convertListByFlatMap(
 
 ---
 
-### 6. 集合查找方法
+### 3.6 集合查找方法
 
 #### `findFirst(Collection<T> from, Predicate<T> predicate)`
 **作用**：查找第一个满足条件的元素
@@ -269,7 +269,7 @@ BigDecimal minPrice = CollectionUtils.getMinValue(products, Product::getPrice);
 
 ---
 
-### 7. 集合聚合方法
+### 3.7 集合聚合方法
 
 #### `getSumValue(Collection<T> from, Function<T, V> valueFunc, BinaryOperator<V> accumulator)`
 **作用**：对集合中的某个字段求和
@@ -292,7 +292,7 @@ Integer totalQuantity = CollectionUtils.getSumValue(
 
 ---
 
-### 8. 集合比较方法
+### 3.8 集合比较方法
 
 #### `diffList(Collection<T> oldList, Collection<T> newList, BiFunction<T, T, Boolean> sameFunc)`
 **作用**：对比新旧两个列表，找出新增、修改、删除的数据
@@ -325,7 +325,7 @@ if (!toDelete.isEmpty()) {
 
 ---
 
-## 🔧 Java 函数式接口速查
+## 四、Java 函数式接口速查
 
 | 接口 | 参数 | 返回值 | 用途 | 示例 |
 |------|------|--------|------|------|
@@ -338,7 +338,7 @@ if (!toDelete.isEmpty()) {
 
 ---
 
-## 💡 实际业务场景示例
+## 五、实际业务场景示例
 
 ### 场景1：用户列表转VO，并过滤掉未激活的用户
 ```java
@@ -391,7 +391,7 @@ deptUserMap.forEach((deptId, userList) -> {
 
 ---
 
-## ⚠️ 注意事项
+## 六、注意事项
 
 1. **所有方法都是静态的**：通过 `CollectionUtils.方法名()` 调用
 2. **自动过滤 null**：`convertList`、`convertSet` 等方法会自动过滤掉 null 元素
@@ -400,7 +400,7 @@ deptUserMap.forEach((deptId, userList) -> {
 
 ---
 
-## 🎓 学习建议
+## 七、学习建议
 
 1. **从简单方法开始**：先掌握 `convertList`、`filterList`、`convertMap`
 2. **理解函数式接口**：重点学习 `Function`、`Predicate` 的用法
@@ -409,10 +409,14 @@ deptUserMap.forEach((deptId, userList) -> {
 
 ---
 
-## 📌 运行机制总结
+## 八、运行机制总结
 
 - **类型**：静态工具类
 - **触发方式**：开发人员主动调用
 - **调用位置**：Service、Controller、Mapper 等任何地方
 - **依赖库**：Hutool、Guava、Spring、Java Stream API
 - **设计模式**：门面模式（封装复杂操作，提供简单接口）
+
+**文档版本**: v1.0  
+**最后更新**: 2025-10-05  
+**维护者**: Ashore 团队  

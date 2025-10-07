@@ -38,11 +38,11 @@ public interface ApiAccessLogCommonApi {
     // =============== 静态内部类 ===============
     @Component
     @Slf4j
-    class ApiAccessLogCommonApiFallbackFactory implements FallbackFactory<ApiErrorLogCommonApi> {
+    class ApiAccessLogCommonApiFallbackFactory implements FallbackFactory<ApiAccessLogCommonApi> {
 
         @Override
-        public ApiErrorLogCommonApi create(Throwable cause) {
-            log.warn("[ApiAccessLogCommonApi] 创建访问日志 RPC 调用失败，将忽略", cause);
+        public ApiAccessLogCommonApi create(Throwable cause) {
+            log.warn("[ApiAccessLogCommonApi][创建访问日志 RPC 调用失败，将忽略]", cause);
             return createDTO -> ApiResponse.success(false); // 静默失败，返回成功但结果为 false，不影响主流程
         }
     }
