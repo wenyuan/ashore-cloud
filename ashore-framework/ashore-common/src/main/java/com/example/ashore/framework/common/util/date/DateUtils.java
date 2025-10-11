@@ -36,7 +36,7 @@ public class DateUtils {
      * @return     Date 对象
      *             如果参数为 null 则返回 null
      */
-    public static Date of(LocalDateTime date) {
+    public static Date toDate(LocalDateTime date) {
         if (date == null) {
             return null;
         }
@@ -56,7 +56,7 @@ public class DateUtils {
      * @return     LocalDateTime 对象
      *             如果参数为 null 则返回 null
      */
-    public static LocalDateTime of(Date date) {
+    public static LocalDateTime toLocalDateTime(Date date) {
         if (date == null) {
             return null;
         }

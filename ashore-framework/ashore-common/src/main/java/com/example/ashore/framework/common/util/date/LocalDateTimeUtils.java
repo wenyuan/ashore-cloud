@@ -37,7 +37,7 @@ public class LocalDateTimeUtils {
      * 空的 LocalDateTime 对象，值为 1970-01-01 00:00:00 (Unix 纪元时间的起点)
      * 使用场景：当数据库字段不允许 NULL，但又需要表示"未设置"的状态时
      */
-    public static LocalDateTime EMPTY = buildTime(1970, 1, 1);
+    public static final LocalDateTime EMPTY = buildTime(1970, 1, 1);
 
     /**
      * UTC 时间格式化器，支持毫秒和时区偏移量
@@ -45,7 +45,7 @@ public class LocalDateTimeUtils {
      * 示例：2024-01-15T14:30:45.123+08:00
      * 用途：用于解析和格式化带时区信息的 UTC 时间字符串，常见于 API 接口的时间传输
      */
-    public static DateTimeFormatter UTC_MS_WITH_XXX_OFFSET_FORMATTER = createFormatter(UTC_MS_WITH_XXX_OFFSET_PATTERN);
+    public static final DateTimeFormatter UTC_MS_WITH_XXX_OFFSET_FORMATTER = createFormatter(UTC_MS_WITH_XXX_OFFSET_PATTERN);
 
     /**
      * 智能解析时间字符串为 LocalDateTime 对象
