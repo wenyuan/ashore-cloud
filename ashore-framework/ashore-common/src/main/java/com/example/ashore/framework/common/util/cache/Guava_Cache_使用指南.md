@@ -110,17 +110,17 @@ public class ProductStockService {
                 .maximumSize(10000)                              // 最大缓存 10000 个商品
                 .refreshAfterWrite(Duration.ofMinutes(5))       // 5 分钟后刷新
                 .build(CacheLoader.asyncReloading(              // 异步刷新
-                    new CacheLoader<Long, Integer>() {
-                        @Override
-                        public Integer load(Long productId) throws Exception {
-                            System.out.println("[异步加载] 从数据库加载商品库存: " + productId
-                                             + ", 线程: " + Thread.currentThread().getName());
-                            // 模拟数据库查询耗时
-                            Thread.sleep(2000);
-                            return stockMapper.getStockByProductId(productId);
-                        }
-                    },
-                    Executors.newCachedThreadPool()             // 使用线程池异步加载
+                        new CacheLoader<Long, Integer>() {
+                            @Override
+                            public Integer load(Long productId) throws Exception {
+                                System.out.println("[异步加载] 从数据库加载商品库存: " + productId
+                                        + ", 线程: " + Thread.currentThread().getName());
+                                // 模拟数据库查询耗时
+                                Thread.sleep(2000);
+                                return stockMapper.getStockByProductId(productId);
+                            }
+                        },
+                        Executors.newCachedThreadPool()             // 使用线程池异步加载
                 ));
     }
 
@@ -132,8 +132,8 @@ public class ProductStockService {
         try {
             Integer stock = asyncStockCache.get(productId);
             System.out.println("[异步缓存] 获取商品库存: " + productId
-                             + ", 库存: " + stock
-                             + ", 线程: " + Thread.currentThread().getName());
+                    + ", 库存: " + stock
+                    + ", 线程: " + Thread.currentThread().getName());
             return stock;
         } catch (Exception e) {
             throw new RuntimeException("获取库存失败", e);
@@ -179,9 +179,9 @@ public class ShoppingCartService {
                         Long tenantId = TenantContextHolder.getTenantId();
 
                         System.out.println("[同步加载] 从数据库加载商品库存: " + productId
-                                         + ", 用户: " + userId
-                                         + ", 租户: " + tenantId
-                                         + ", 线程: " + Thread.currentThread().getName());
+                                + ", 用户: " + userId
+                                + ", 租户: " + tenantId
+                                + ", 线程: " + Thread.currentThread().getName());
 
                         // 模拟数据库查询耗时
                         Thread.sleep(2000);
@@ -200,9 +200,9 @@ public class ShoppingCartService {
         try {
             Integer stock = syncStockCache.get(productId);
             System.out.println("[同步缓存] 检查库存: " + productId
-                             + ", 需要: " + quantity
-                             + ", 可用: " + stock
-                             + ", 线程: " + Thread.currentThread().getName());
+                    + ", 需要: " + quantity
+                    + ", 可用: " + stock
+                    + ", 线程: " + Thread.currentThread().getName());
             return stock >= quantity;
         } catch (Exception e) {
             throw new RuntimeException("检查库存失败", e);
@@ -512,8 +512,8 @@ class MockProductStockMapper implements ProductStockMapper {
 ```java
 // 根据数据变更频率设置刷新时间
 .refreshAfterWrite(Duration.ofMinutes(10))  // 系统配置：10 分钟
-.refreshAfterWrite(Duration.ofMinutes(5))   // 商品库存：5 分钟
-.refreshAfterWrite(Duration.ofMinutes(3))   // 用户权限：3 分钟
+        .refreshAfterWrite(Duration.ofMinutes(5))   // 商品库存：5 分钟
+        .refreshAfterWrite(Duration.ofMinutes(3))   // 用户权限：3 分钟
 ```
 
 ### 7.3 异常处理
@@ -535,13 +535,13 @@ public Integer getStock(Long productId) {
 ```java
 // 启用统计功能
 LoadingCache<Long, Integer> cache = CacheBuilder.newBuilder()
-    .recordStats()  // 开启统计
-    .build(loader);
+                .recordStats()  // 开启统计
+                .build(loader);
 
 // 获取统计信息
 CacheStats stats = cache.stats();
 System.out.println("命中率: " + stats.hitRate());
-System.out.println("平均加载时间: " + stats.averageLoadPenalty() + "ns");
+        System.out.println("平均加载时间: " + stats.averageLoadPenalty() + "ns");
 ```
 
 ---
@@ -583,11 +583,255 @@ cache.invalidateAll();
 
 ---
 
-## 九、参考资料
+## 九、CacheUtils 在本项目中的使用
+
+### 9.1 CacheUtils 工具类说明
+
+本项目封装了 `CacheUtils` 工具类，提供了两个核心方法：
+
+```java
+/**
+ * 构建异步刷新的 LoadingCache 对象
+ *
+ * 注意：如果你的缓存和 ThreadLocal 有关系,要么自己处理 ThreadLocal 的传递，
+ *      要么使用 buildCache 方法
+ *
+ * 或者简单理解：
+ * 1、和"人"相关的,使用 buildCache 方法
+ * 2、和"全局"、"系统"相关的,使用当前缓存方法
+ */
+public static <K, V> LoadingCache<K, V> buildAsyncReloadingCache(Duration duration, CacheLoader<K, V> loader)
+
+/**
+ * 构建同步刷新的 LoadingCache 对象
+ */
+public static <K, V> LoadingCache<K, V> buildCache(Duration duration, CacheLoader<K, V> loader)
+```
+
+### 9.2 实际使用场景
+
+#### 场景 1：字典数据缓存（异步刷新��
+
+**位置**：`DictFrameworkUtils.java`
+**特点**：全局共享的字典数据，无需访问 ThreadLocal
+
+```java
+/**
+ * 针对 dictType 的字段数据缓存
+ * 场景：系统字典数据（如：性别、状态等），所有用户共享
+ */
+private static final LoadingCache<String, List<DictDataRespDTO>> GET_DICT_DATA_CACHE =
+    CacheUtils.buildAsyncReloadingCache(
+        Duration.ofMinutes(1L), // 过期时间 1 分钟
+        new CacheLoader<String, List<DictDataRespDTO>>() {
+            @Override
+            public List<DictDataRespDTO> load(String dictType) {
+                // 远程调用获取字典数据
+                return dictDataApi.getDictDataList(dictType).getCheckedData();
+            }
+        });
+
+// 使用示例
+@SneakyThrows
+public static String parseDictDataLabel(String dictType, String value) {
+    List<DictDataRespDTO> dictDatas = GET_DICT_DATA_CACHE.get(dictType);
+    DictDataRespDTO dictData = CollUtil.findOne(dictDatas,
+        data -> Objects.equals(data.getValue(), value));
+    return dictData != null ? dictData.getLabel() : null;
+}
+```
+
+**为什么使用异步刷新**：
+- ✅ 字典数据全局共享，不依赖用户上下文
+- ✅ 可容忍短暂的数据延迟
+- ✅ 高频访问，需要极致性能
+
+---
+
+#### 场景 2：租户列表缓存（异步刷新）
+
+**位置**：`TenantFrameworkServiceImpl.java`
+**特点**：全局租户列表，无需用户上下文
+
+```java
+/**
+ * 针对 getTenantIds() 的缓存
+ * 场景：缓存系统所有租户 ID 列表，用于租户校验
+ */
+private final LoadingCache<Object, List<Long>> getTenantIdsCache =
+    buildAsyncReloadingCache(
+        Duration.ofMinutes(1L), // 过期时间 1 分钟
+        new CacheLoader<Object, List<Long>>() {
+            @Override
+            public List<Long> load(Object key) {
+                return tenantApi.getTenantIdList().getCheckedData();
+            }
+        });
+
+/**
+ * 针对 validTenant(Long) 的缓存
+ * 场景：缓存租户是否有效的校验结果
+ */
+private final LoadingCache<Long, CommonResult<Boolean>> validTenantCache =
+    buildAsyncReloadingCache(
+        Duration.ofMinutes(1L), // 过期时间 1 分钟
+        new CacheLoader<Long, CommonResult<Boolean>>() {
+            @Override
+            public CommonResult<Boolean> load(Long id) {
+                return tenantApi.validTenant(id);
+            }
+        });
+
+// 使用示例
+@Override
+@SneakyThrows
+public List<Long> getTenantIds() {
+    return getTenantIdsCache.get(Boolean.TRUE);
+}
+
+@Override
+@SneakyThrows
+public void validTenant(Long id) {
+    validTenantCache.get(id).checkError();
+}
+```
+
+**为什么使用异步刷新**：
+- ✅ 租户数据系统级共享
+- ✅ 变更频率低，可容忍缓存延迟
+- ✅ 高频校验，需要快速响应
+
+---
+
+#### 场景 3：用户权限缓存（同步刷新）
+
+**位置**：`SecurityFrameworkServiceImpl.java`
+**特点**：需要访问当前登录用户的 ThreadLocal 上下文
+
+```java
+/**
+ * 针对 hasAnyRoles 的缓存
+ * 场景：缓存用户角色校验结果，基于当前登录用户
+ */
+private final LoadingCache<KeyValue<Long, List<String>>, Boolean> hasAnyRolesCache =
+    buildCache(
+        Duration.ofMinutes(1L), // 过期时间 1 分钟
+        new CacheLoader<KeyValue<Long, List<String>>, Boolean>() {
+            @Override
+            public Boolean load(KeyValue<Long, List<String>> key) {
+                // 远程调用权限 API，需要在当前线程执行以访问 ThreadLocal
+                return permissionApi.hasAnyRoles(
+                    key.getKey(),
+                    key.getValue().toArray(new String[0])
+                ).getCheckedData();
+            }
+        });
+
+/**
+ * 针对 hasAnyPermissions 的缓存
+ * 场景：缓存用户权限校验结果，基于当前登录用户
+ */
+private final LoadingCache<KeyValue<Long, List<String>>, Boolean> hasAnyPermissionsCache =
+    buildCache(
+        Duration.ofMinutes(1L), // 过期时间 1 分钟
+        new CacheLoader<KeyValue<Long, List<String>>, Boolean>() {
+            @Override
+            public Boolean load(KeyValue<Long, List<String>> key) {
+                return permissionApi.hasAnyPermissions(
+                    key.getKey(),
+                    key.getValue().toArray(new String[0])
+                ).getCheckedData();
+            }
+        });
+
+// 使用示例
+@Override
+@SneakyThrows
+public boolean hasAnyPermissions(String... permissions) {
+    // 特殊：跨租户访问
+    if (skipPermissionCheck()) {
+        return true;
+    }
+
+    // 权限校验 - 从 SecurityFrameworkUtils 的 ThreadLocal 获取当前用户 ID
+    Long userId = getLoginUserId();
+    if (userId == null) {
+        return false;
+    }
+    return hasAnyPermissionsCache.get(new KeyValue<>(userId, Arrays.asList(permissions)));
+}
+```
+
+**为什么使用同步刷新**：
+- ✅ 权限校验可能需要访问 ThreadLocal 中的用户上下文
+- ✅ 权限数据和具体用户强相关
+- ✅ 虽然示例中 userId 作为 key 传入，但 permissionApi 内部可能依赖 ThreadLocal
+- ✅ 单个用户请求阻塞可接受，保证数据一致性
+
+---
+
+### 9.3 使用场景总结
+
+| 缓存方法 | 适用场景 | 项目实际应用 |
+|---------|---------|-------------|
+| **buildAsyncReloadingCache** | 全局、系统级数据 | • 字典数据缓存<br>• 租户列表缓存<br>• 配置参数缓存<br>• 社交客户端配置 |
+| **buildCache** | 用户、租户级数据 | • 用户权限缓存<br>• 用户角色缓存<br>• Token 校验缓存 |
+
+### 9.4 使用建议
+
+**选择 buildAsyncReloadingCache 的条件**：
+1. ✅ 数据全局共享（如系统配置、字典、租户列表）
+2. ✅ 不依赖 ThreadLocal（如当前用户、当前租户上下文）
+3. ✅ 可容忍短暂数据延迟（秒级）
+4. ✅ 高并发访问场景
+
+**选择 buildCache 的条件**：
+1. ✅ 数据和用户/租户相关
+2. ✅ 加载逻辑需要访问 ThreadLocal
+3. ✅ 对数据一致性要求高
+4. ✅ 单用户请求可接受短暂阻塞
+
+### 9.5 常见误区
+
+❌ **错误用法**：对需要 ThreadLocal 的场景使用异步刷新
+
+```java
+// ❌ 错误示例：用户权限校验使用异步刷新
+private final LoadingCache<Long, Boolean> cache = buildAsyncReloadingCache(
+    Duration.ofMinutes(1L),
+    new CacheLoader<Long, Boolean>() {
+        @Override
+        public Boolean load(Long userId) {
+            // ❌ 后台线程池无法访问请求线程的 ThreadLocal
+            Long currentUserId = SecurityContextHolder.getUserId(); // 返回 null
+            return permissionApi.checkPermission(userId);
+        }
+    });
+```
+
+✅ **正确用法**：改用同步刷新
+
+```java
+// ✅ 正确示例：用户权限校验使用同步刷新
+private final LoadingCache<Long, Boolean> cache = buildCache(
+    Duration.ofMinutes(1L),
+    new CacheLoader<Long, Boolean>() {
+        @Override
+        public Boolean load(Long userId) {
+            // ✅ 当前线程可以访问 ThreadLocal
+            Long currentUserId = SecurityContextHolder.getUserId();
+            return permissionApi.checkPermission(userId);
+        }
+    });
+```
+
+---
+
+## 十、参考资料
 
 - [Guava 官方文档](https://github.com/google/guava/wiki/CachesExplained)
 - [Guava Cache 源码解析](https://github.com/google/guava)
 
-**文档版本**: v1.0  
-**最后更新**: 2025-10-07  
-**维护者**: Ashore 团队  
+**文档版本**: v1.1
+**最后更新**: 2025-10-19
+**维护者**: Ashore 团队
