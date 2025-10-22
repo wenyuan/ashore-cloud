@@ -53,8 +53,6 @@ import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.Duration;
-
 /**
  * 数据库专用 RestTemplate 配置类
  *
@@ -78,9 +76,7 @@ public class DatabaseRestTemplateConfig {
     @Bean  // 将方法返回值注册为 Spring Bean，Bean 名称默认为方法名 "databaseRestTemplate"
     public RestTemplate databaseRestTemplate(RestTemplateBuilder builder) {
         return builder
-                .requestFactory(this::createRequestFactory)  // 设置自定义的请求工厂（包含连接池配置）
-                .setConnectTimeout(Duration.ofSeconds(5))    // 连接超时：5秒（建立 TCP 连接的最大等待时间）
-                .setReadTimeout(Duration.ofSeconds(30))      // 读取超时：30秒（等待响应数据的最大时间，数据库查询可能较慢）
+                .requestFactory(this::createRequestFactory)  // 设置自定义的请求工厂（包含连接池配置和超时设置）
                 .additionalInterceptors((request, body, execution) -> {          // 添加拦截器，统一处理请求
                     // 设置统一的请求头
                     request.getHeaders().add("User-Agent", "Ashore-System/1.0");  // 标识客户端身份
