@@ -15,7 +15,8 @@
 <!--		<module>ashore-spring-boot-starter-mybatis</module>-->
 <!--		<module>ashore-spring-boot-starter-redis</module>-->
 		<module>ashore-spring-boot-starter-web</module>
-<!--		<module>ashore-spring-boot-starter-security</module>-->
+        <module>ashore-spring-boot-starter-rpc</module>
+        <!--		<module>ashore-spring-boot-starter-security</module>-->
 <!--		<module>ashore-spring-boot-starter-websocket</module>-->
 
 <!--		<module>ashore-spring-boot-starter-monitor</module>-->
