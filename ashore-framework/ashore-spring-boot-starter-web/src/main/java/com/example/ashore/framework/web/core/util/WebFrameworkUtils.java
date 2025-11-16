@@ -243,14 +243,14 @@ public class WebFrameworkUtils {
     }
 
     /**
-     * 从请求属性中获取通用返回结果
+     * 从请求属性中获取HTTP API返回结果
      *
      * 功能说明:
      *   - 获取之前通过 setApiResponse() 存储的返回结果
      *   - 用于在请求处理链中访问已生成的响应结果
      *
      * @param request Servlet 请求对象
-     * @return        通用返回结果对象，如果未设置则返回 null
+     * @return        HTTP API返回结果对象，如果未设置则返回 null
      */
     public static ApiResponse<?> getApiResponse(ServletRequest request) {
         return (ApiResponse<?>) request.getAttribute(REQUEST_ATTRIBUTE_API_RESPONSE);

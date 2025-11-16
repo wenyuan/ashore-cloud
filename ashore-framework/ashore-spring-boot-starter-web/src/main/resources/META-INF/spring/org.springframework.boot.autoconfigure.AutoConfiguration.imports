@@ -1,8 +1,8 @@
-# com.example.ashore.framework.apilog.config.AshoreApiLogAutoConfiguration
+com.example.ashore.framework.apilog.config.AshoreApiLogAutoConfiguration
 com.example.ashore.framework.jackson.config.AshoreJacksonAutoConfiguration
-# com.example.ashore.framework.swagger.config.AshoreSwaggerAutoConfiguration
-# com.example.ashore.framework.web.config.AshoreWebAutoConfiguration
-# com.example.ashore.framework.apilog.config.AshoreApiLogRpcAutoConfiguration
-# com.example.ashore.framework.xss.config.AshoreXssAutoConfiguration
-# com.example.ashore.framework.banner.config.AshoreBannerAutoConfiguration
-# com.example.ashore.framework.encrypt.config.AshoreApiEncryptAutoConfiguration
+com.example.ashore.framework.swagger.config.AshoreSwaggerAutoConfiguration
+com.example.ashore.framework.web.config.AshoreWebAutoConfiguration
+com.example.ashore.framework.apilog.config.AshoreApiLogRpcAutoConfiguration
+com.example.ashore.framework.xss.config.AshoreXssAutoConfiguration
+com.example.ashore.framework.banner.config.AshoreBannerAutoConfiguration
+com.example.ashore.framework.encrypt.config.AshoreApiEncryptAutoConfiguration

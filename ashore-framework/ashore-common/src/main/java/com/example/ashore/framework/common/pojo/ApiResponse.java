@@ -35,33 +35,33 @@ public class ApiResponse<T> implements Serializable {
 
     /**
      * 场景: 服务间调用，比如 feign 调用返回 ApiResponse<UserDTO>，需要转换为 ApiResponse<UserVO>（只复制 code 和 msg）
-     * 将传入的 result 对象，转换成另外一个泛型结果的对象
+     * 将传入的 apiResponse 对象，转换成另外一个泛型结果的对象
      * 因为 A 方法返回的 ApiResponse 对象，不满足调用其的 B 方法的返回，所以需要进行转换。
      *
-     * @param result 传入的 result 对象
+     * @param apiResponse 传入的 apiResponse 对象
      * @param <T> 返回的泛型
      * @return 新的 ApiResponse 对象
      */
-    public static <T> ApiResponse<T> error(ApiResponse<?> result) {
-        return error(result.getCode(), result.getMsg());
+    public static <T> ApiResponse<T> error(ApiResponse<?> apiResponse) {
+        return error(apiResponse.getCode(), apiResponse.getMsg());
     }
 
     // 创建错误结果(传递错误码和消息)
     public static <T> ApiResponse<T> error(String code, String message) {
         Assert.notEquals(GlobalErrorCodeConstants.SUCCESS.getCode(), code, "当前传递的是成功时的 code！");
-        ApiResponse<T> result = new ApiResponse<>();
-        result.code = code;
-        result.msg = message;
-        return result;
+        ApiResponse<T> apiResponse = new ApiResponse<>();
+        apiResponse.code = code;
+        apiResponse.msg = message;
+        return apiResponse;
     }
 
     // 创建错误结果(传递错误码和消息，消息带参数格式化)
     public static <T> ApiResponse<T> error(ErrorCode errorCode, Object... params) {
         Assert.notEquals(GlobalErrorCodeConstants.SUCCESS.getCode(), errorCode.getCode(), "当前传递的是成功时的 code！");
-        ApiResponse<T> result = new ApiResponse<>();
-        result.code = errorCode.getCode();
-        result.msg = BusinessExceptionUtils.doFormat(errorCode.getCode(), errorCode.getMsg(), params);
-        return result;
+        ApiResponse<T> apiResponse = new ApiResponse<>();
+        apiResponse.code = errorCode.getCode();
+        apiResponse.msg = BusinessExceptionUtils.doFormat(errorCode.getCode(), errorCode.getMsg(), params);
+        return apiResponse;
     }
 
     // 创建错误结果(传递ErrorCode对象)
@@ -71,11 +71,11 @@ public class ApiResponse<T> implements Serializable {
 
     // 创建成功结果
     public static <T> ApiResponse<T> success(T data) {
-        ApiResponse<T> result = new ApiResponse<>();
-        result.code = GlobalErrorCodeConstants.SUCCESS.getCode();
-        result.data = data;
-        result.msg = "";
-        return result;
+        ApiResponse<T> apiResponse = new ApiResponse<>();
+        apiResponse.code = GlobalErrorCodeConstants.SUCCESS.getCode();
+        apiResponse.data = data;
+        apiResponse.msg = "";
+        return apiResponse;
     }
 
     // 判断是否成功(静态方法)

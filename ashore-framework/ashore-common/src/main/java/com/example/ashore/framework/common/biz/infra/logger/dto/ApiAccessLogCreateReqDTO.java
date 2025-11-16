@@ -1,5 +1,6 @@
 package com.example.ashore.framework.common.biz.infra.logger.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -86,13 +87,13 @@ public class ApiAccessLogCreateReqDTO {
     @NotNull(message = "执行时长不能为空")
     private Integer duration;
     /**
-     * 结果码
+     * 错误码
      */
-    @NotNull(message = "错误码不能为空")
-    private Integer resultCode;
+    @NotBlank(message = "错误码不能为空")
+    private String errorCode;
     /**
      * 结果提示
      */
-    private String resultMsg;
+    private String responseMsg;
 
 }
