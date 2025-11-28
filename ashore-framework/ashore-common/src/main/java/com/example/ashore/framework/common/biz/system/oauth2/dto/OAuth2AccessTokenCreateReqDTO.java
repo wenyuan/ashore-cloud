@@ -3,6 +3,7 @@ package com.example.ashore.framework.common.biz.system.oauth2.dto;
 import com.example.ashore.framework.common.enums.UserTypeEnum;
 import com.example.ashore.framework.common.validation.InEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -14,8 +15,8 @@ import java.util.List;
 public class OAuth2AccessTokenCreateReqDTO implements Serializable {
 
     @Schema(description = "用户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "10")
-    @NotNull(message = "用户编号不能为空")
-    private Long userId;
+    @NotBlank(message = "用户编号不能为空")
+    private String userId;
 
     @Schema(description = "用户类型，参见 UserTypeEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @NotNull(message = "用户类型不能为空")

@@ -27,7 +27,7 @@ public interface PermissionCommonApi {
             @Parameter(name = "userId", description = "用户编号", example = "1", required = true),
             @Parameter(name = "permissions", description = "权限", example = "read,write", required = true)
     })
-    ApiResponse<Boolean> hasAnyPermissions(@RequestParam("userId") Long userId,
+    ApiResponse<Boolean> hasAnyPermissions(@RequestParam("userId") String userId,
                                             @RequestParam("permissions") String... permissions);
 
     @GetMapping(PREFIX + "/has-any-roles")
@@ -36,13 +36,13 @@ public interface PermissionCommonApi {
             @Parameter(name = "userId", description = "用户编号", example = "1", required = true),
             @Parameter(name = "roles", description = "角色数组", example = "2", required = true)
     })
-    ApiResponse<Boolean> hasAnyRoles(@RequestParam("userId") Long userId,
+    ApiResponse<Boolean> hasAnyRoles(@RequestParam("userId") String userId,
                                       @RequestParam("roles") String... roles);
 
     @GetMapping(PREFIX + "/get-dept-data-permission")
     @Operation(summary = "获得登录用户的部门数据权限")
     @Parameter(name = "userId", description = "用户编号", example = "2", required = true)
-    ApiResponse<DeptDataPermissionRespDTO> getDeptDataPermission(@RequestParam("userId") Long userId);
+    ApiResponse<DeptDataPermissionRespDTO> getDeptDataPermission(@RequestParam("userId") String userId);
 
     /**
      * 由于权限服务是核心功能，降级时返回错误状态，确保调用方能感知到权限检查失败。
@@ -55,17 +55,17 @@ public interface PermissionCommonApi {
             log.error("[PermissionCommonApi][权限服务调用失败]", cause);
             return new PermissionCommonApi() {
                 @Override
-                public ApiResponse<Boolean> hasAnyPermissions(Long userId, String... permissions) {
+                public ApiResponse<Boolean> hasAnyPermissions(String userId, String... permissions) {
                     return ApiResponse.error(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(), "权限服务调用失败");
                 }
 
                 @Override
-                public ApiResponse<Boolean> hasAnyRoles(Long userId, String... roles) {
+                public ApiResponse<Boolean> hasAnyRoles(String userId, String... roles) {
                     return ApiResponse.error(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(), "权限服务调用失败");
                 }
 
                 @Override
-                public ApiResponse<DeptDataPermissionRespDTO> getDeptDataPermission(Long userId) {
+                public ApiResponse<DeptDataPermissionRespDTO> getDeptDataPermission(String userId) {
                     return ApiResponse.error(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode(), "权限服务调用失败");
                 }
             };

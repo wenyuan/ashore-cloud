@@ -1,0 +1,5 @@
+com.example.ashore.framework.security.config.AshoreSecurityRpcAutoConfiguration
+com.example.ashore.framework.security.config.AshoreSecurityAutoConfiguration
+com.example.ashore.framework.security.config.AshoreWebSecurityConfigurerAdapter
+com.example.ashore.framework.operatelog.config.AshoreOperateLogConfiguration
+com.example.ashore.framework.operatelog.config.AshoreOperateLogRpcAutoConfiguration

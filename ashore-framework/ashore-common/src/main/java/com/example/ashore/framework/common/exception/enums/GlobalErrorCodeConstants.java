@@ -19,7 +19,7 @@ public interface GlobalErrorCodeConstants {
     ErrorCode BAD_REQUEST = new ErrorCode("A0001", "用户端错误");
     ErrorCode REGISTER_ERROR = new ErrorCode("A0100", "用户注册错误");
     ErrorCode UNAUTHORIZED = new ErrorCode("A0200", "用户未登录");
-    ErrorCode FORBIDDEN = new ErrorCode("A0300", "访问权限异常");
+    ErrorCode FORBIDDEN = new ErrorCode("A0300", "没有该操作权限");
     ErrorCode INVALID_PARAMS = new ErrorCode("A0400", "用户请求参数错误");
     ErrorCode NOT_FOUND = new ErrorCode("A0404", "请求未找到");
     ErrorCode METHOD_NOT_ALLOWED = new ErrorCode("A0405", "请求方法不正确");
