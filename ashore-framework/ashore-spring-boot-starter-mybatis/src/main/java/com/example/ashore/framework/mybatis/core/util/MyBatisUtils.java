@@ -143,7 +143,8 @@ public class MyBatisUtils {
      * 将驼峰命名转换为下划线命名
      *
      * 使用场景：
-     * 1. <a href="https://gitee.com/zhijiantianya/ruoyi-vue-pro/pulls/1357/files">fix:修复"商品统计聚合函数的别名与排序字段不符"导致的 SQL 异常</a>
+     * fix:排序时排序字段被 {@link MyBatisUtils#buildPage} 由驼峰命名被转为下划线命名，
+     *     因此聚合函数的别名也做统一，统一为下划线命名，解决排序时找不到字段的问题。
      *
      * @param func 字段名函数(驼峰命名)
      * @return 字段名(下划线命名)

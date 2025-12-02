@@ -1,2 +1,3 @@
 com.example.ashore.framework.datasource.config.AshoreDataSourceAutoConfiguration
 com.example.ashore.framework.mybatis.config.AshoreMybatisAutoConfiguration
+com.example.ashore.framework.translate.config.AshoreTranslateAutoConfiguration
