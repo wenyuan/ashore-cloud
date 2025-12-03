@@ -1,0 +1,2 @@
+com.example.ashore.framework.redis.config.AshoreRedisAutoConfiguration
+com.example.ashore.framework.redis.config.AshoreCacheAutoConfiguration
